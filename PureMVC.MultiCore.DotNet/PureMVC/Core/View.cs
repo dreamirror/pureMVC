@@ -305,7 +305,7 @@ namespace PureMVC.Core
         /// <summary>
         /// View Singleton Factory method.  This method is thread safe.
         /// </summary>
-        public static IView GetInstance(string key)
+        public static IView GetInstance(string key) //为不同的Controler创建不同的View
         {
             IView result;
             if (m_instanceMap.TryGetValue(key, out result))

@@ -57,8 +57,8 @@ namespace PureMVC.Core
             m_commandMap = new ConcurrentDictionary<string, object>(); //保存命令和执行命令的 对象
             if (m_instanceMap.ContainsKey(key))
                 throw new Exception(MULTITON_MSG);
-            m_instanceMap[key] = this;
-            InitializeController();
+            m_instanceMap[key] = this; //标记Controller
+            InitializeController(); //关联Controller 和 View
         }
 
         /// <summary>
@@ -88,16 +88,16 @@ namespace PureMVC.Core
         /// </summary>
         /// <param name="notification">An INotification</param>
         /// <remarks>This method is thread safe and needs to be thread safe in all implementations.</remarks>
-        public void ExecuteCommand(INotification notification)
+        public void ExecuteCommand(INotification notification) //执行Connmand Command 是和对象一一对应的 通过command去 找对象 在执行对象里面的方法
         {
             if (!m_commandMap.ContainsKey(notification.Name)) return;
-            var commandReference = m_commandMap[notification.Name];
+            var commandReference = m_commandMap[notification.Name]; //根据Command来获取对象的实例
 
             ICommand command;
-            var commandType = commandReference as Type;
+            var commandType = commandReference as Type; //类似C++的强制类型转换
             if (commandType != null)
             {
-                var commandInstance = Activator.CreateInstance(commandType);
+                var commandInstance = Activator.CreateInstance(commandType); //根据类型创建实例
                 command = commandInstance as ICommand;
                 if (command == null)
                     return;
@@ -107,6 +107,8 @@ namespace PureMVC.Core
                 command = commandReference as ICommand;
                 if (command == null) return;
             }
+
+            //通过notification 在字典中找到对应的类 再实例化类 在执行类里面的方法往方法中传入消息 并且告诉类是那个控制器要他执行的
             command.InitializeNotifier(m_multitonKey);
             command.Execute(notification);
         }
@@ -151,7 +153,7 @@ namespace PureMVC.Core
         ///     </para>
         /// </remarks> 
         /// <remarks>This method is thread safe and needs to be thread safe in all implementations.</remarks>
-        public void RegisterCommand(string notificationName, ICommand command)
+        public void RegisterCommand(string notificationName, ICommand command) //注册命令 将命令 和 执行这个命令的类联系起来执行这个命令的类都是继承了ICommand接口的
         {
             if (!m_commandMap.ContainsKey(notificationName))
             {
@@ -169,7 +171,7 @@ namespace PureMVC.Core
         /// <param name="notificationName"></param>
         /// <returns>whether a Command is currently registered for the given <c>notificationName</c>.</returns>
         /// <remarks>This method is thread safe and needs to be thread safe in all implementations.</remarks>
-        public bool HasCommand(string notificationName)
+        public bool HasCommand(string notificationName) //检测是不是已有的命令
         {
             return m_commandMap.ContainsKey(notificationName);
         }
@@ -179,7 +181,7 @@ namespace PureMVC.Core
         /// </summary>
         /// <param name="notificationName">The name of the <c>INotification</c> to remove the <c>ICommand</c> mapping for</param>
         /// <remarks>This method is thread safe and needs to be thread safe in all implementations.</remarks>
-        public object RemoveCommand(string notificationName)
+        public object RemoveCommand(string notificationName) //移除命令
         {
             if (!m_commandMap.ContainsKey(notificationName)) return null;
             // remove the observer
@@ -218,7 +220,7 @@ namespace PureMVC.Core
         /// <summary>
         /// Facade Singleton Factory method.  This method is thread safe.
         /// </summary>
-        public static IController GetInstance(string key)
+        public static IController GetInstance(string key) //通过不同的Key得到不同的Controller
         {
             IController result;
             if (m_instanceMap.TryGetValue(key, out result))
@@ -237,9 +239,9 @@ namespace PureMVC.Core
         /// Explicit static constructor to tell C# compiler
         /// not to mark type as before field initiate
         /// </summary>
-        static Controller()
+        static Controller() //静态构造函数
         {
-            m_instanceMap = new ConcurrentDictionary<string, IController>();
+            m_instanceMap = new ConcurrentDictionary<string, IController>(); //通过不同的KEy 来标记不同的Controller 在MVC设计模式中也会有很多不同的Controller 比如声音 图像 数据等等
         }
 
         /// <summary>
@@ -262,15 +264,15 @@ namespace PureMVC.Core
         ///         }
         ///     </c>
         /// </remarks>
-        private void InitializeController()
+        private void InitializeController() 
         {
-            m_view = View.GetInstance(m_multitonKey);
+            m_view = View.GetInstance(m_multitonKey); //将Controller 与View关联起来 并且创建新的View
         }
 
         /// <summary>
         /// List all notification name
         /// </summary>
-        public IEnumerable<string> ListNotificationNames
+        public IEnumerable<string> ListNotificationNames //得到所有的命令
         {
             get { return m_commandMap.Keys; }
         }
@@ -278,7 +280,7 @@ namespace PureMVC.Core
         /// <summary>
         /// Release and dispose resource of controller.
         /// </summary>
-        public void Dispose()
+        public void Dispose() //disPose 方法 来自接口IDisposable 接口中用来释放资源
         {
             RemoveController(m_multitonKey);
             m_commandMap.Clear();
