@@ -45,7 +45,7 @@ namespace PureMVC.Core
         ///     <para>This <c>IModel</c> implementation is a Singleton, so you should not call the constructor directly, but instead call the static Singleton Factory method <c>Model.getInstance()</c></para>
         /// </remarks>
         /// <param name="key">Key of model</param>
-        public Model(string key)
+        public Model(string key) //和Controller类似用字符串来绑定Model
         {
             m_multitonKey = key;
             m_proxyMap = new ConcurrentDictionary<string, IProxy>();
@@ -76,7 +76,7 @@ namespace PureMVC.Core
         /// </summary>
         /// <param name="proxy">An <c>IProxy</c> to be held by the <c>Model</c></param>
         /// <remarks>This method is thread safe and needs to be thread safe in all implementations.</remarks>
-        public virtual void RegisterProxy(IProxy proxy)
+        public virtual void RegisterProxy(IProxy proxy) //将这个model注册到proxy代理中 proxy 就好像一个管理model的类
         {
             proxy.InitializeNotifier(m_multitonKey);
             m_proxyMap[proxy.ProxyName] = proxy;

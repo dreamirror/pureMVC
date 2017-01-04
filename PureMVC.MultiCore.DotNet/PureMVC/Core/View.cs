@@ -44,11 +44,11 @@ namespace PureMVC.Core
         /// <para>This <c>IView</c> implementation is a Singleton, so you should not call the constructor directly, but instead call the static Singleton Factory method <c>View.Instance</c></para>
         /// </remarks>
         /// <param name="key">Key of view</param>
-        protected View(string key)
+        protected View(string key) //通过string来绑定View
         {
             m_multitonKey = key;
-            m_mediatorMap = new ConcurrentDictionary<string, IMediator>();
-            m_observerMap = new ConcurrentDictionary<string, IList<IObserver>>();
+            m_mediatorMap = new ConcurrentDictionary<string, IMediator>(); //mediator 与string 的字典
+            m_observerMap = new ConcurrentDictionary<string, IList<IObserver>>(); //观察者 与string的字典
             if (m_instanceMap.ContainsKey(key))
                 throw new Exception(MULTITON_MSG);
             m_instanceMap[key] = this;
@@ -305,7 +305,7 @@ namespace PureMVC.Core
         /// <summary>
         /// View Singleton Factory method.  This method is thread safe.
         /// </summary>
-        public static IView GetInstance(string key) //为不同的Controler创建不同的View
+        public static IView GetInstance(string key) //通过string来得到不同的View
         {
             IView result;
             if (m_instanceMap.TryGetValue(key, out result))
