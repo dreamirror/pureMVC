@@ -71,7 +71,7 @@ namespace PureMVC.Patterns
         /// List the <c>INotification</c> names this <c>Mediator</c> is interested in being notified of
         /// </summary>
         /// <returns>The list of <c>INotification</c> names </returns>
-        public virtual IEnumerable<string> ListNotificationInterests
+        public virtual IEnumerable<string> ListNotificationInterests //需要相应的消息
         {
             get { return new List<string>(); }
         }

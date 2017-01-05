@@ -29,7 +29,7 @@ namespace PureMVC.Interfaces
         ///     <para>Convenience method to prevent having to construct new notification instances in our implementation code</para>
         /// </remarks>
         /// <param name="notificationName">The name of the notification to send</param>
-        void SendNotification(string notificationName);
+        void SendNotification(string notificationName); 
 
         /// <summary>
         /// Send a <c>INotification</c>
@@ -56,7 +56,7 @@ namespace PureMVC.Interfaces
         /// Initialize notifier with key
         /// </summary>
         /// <param name="key">The key for notifier use</param>
-        void InitializeNotifier(string key);
+        void InitializeNotifier(string key); //用字符串实例化一个消息发射器
 
         /// <summary>
         /// Get multi-ton key.

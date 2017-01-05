@@ -76,10 +76,12 @@ namespace PureMVC.Core
         /// </summary>
         /// <param name="proxy">An <c>IProxy</c> to be held by the <c>Model</c></param>
         /// <remarks>This method is thread safe and needs to be thread safe in all implementations.</remarks>
+        /// 
+        
         public virtual void RegisterProxy(IProxy proxy) //将这个model注册到proxy代理中 proxy 就好像一个管理model的类
         {
-            proxy.InitializeNotifier(m_multitonKey);
-            m_proxyMap[proxy.ProxyName] = proxy;
+            proxy.InitializeNotifier(m_multitonKey); //保持proxy 和Notifiler 由同一个string来索引
+            m_proxyMap[proxy.ProxyName] = proxy; //存放所有的proxy 的map
 
             proxy.OnRegister();
         }
@@ -240,6 +242,8 @@ namespace PureMVC.Core
         /// <summary>
         /// Exception string for duplicate model
         /// </summary>
+        /// 
+       
         protected const string MULTITON_MSG = "Model instance for this Multiton key already constructed!";
 
         #endregion

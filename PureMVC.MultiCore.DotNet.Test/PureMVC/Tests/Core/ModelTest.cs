@@ -80,8 +80,8 @@ namespace PureMVC.Tests.Core
    			IModel model = Model.Instance;
 			string name = "colors" + Thread.CurrentThread.Name;
 			model.RegisterProxy(new Proxy(name, new List<string>(new[] { "red", "green", "blue" })));
-			IProxy proxy = model.RetrieveProxy(name);
-			var data = (List<string>) proxy.Data;
+			IProxy proxy = model.RetrieveProxy(name); //得到上面的那个代理类
+			var data = (List<string>) proxy.Data; //代列类里面的数据
 			
 			// test assertions
             Assert.IsNotNull(data, "Expecting data not null");

@@ -50,7 +50,7 @@ namespace PureMVC.Patterns
         /// <param name="name">The name of the <c>Notification</c> instance</param>
         /// <param name="body">The <c>Notification</c>s body</param>
         /// <param name="type">The type of the <c>Notification</c></param>
-        public Notification(string name, object body, string type)
+        public Notification(string name, object body, string type) //创建一个消息 消息有name body 和type
         {
             Name = name;
             Body = body;
@@ -86,7 +86,7 @@ namespace PureMVC.Patterns
         /// The body of the <c>Notification</c> instance
         /// </summary>
         /// <remarks>This accessor is thread safe</remarks>
-        public object Body { get; set; }
+        public object Body { get; set; } //用来存信息的
 
         /// <summary>
         /// The type of the <c>Notification</c> instance
