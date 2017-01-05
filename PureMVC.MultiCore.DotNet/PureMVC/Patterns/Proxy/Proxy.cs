@@ -46,7 +46,7 @@ namespace PureMVC.Patterns
         /// Constructs a new proxy with the specified name and no data
         /// </summary>
         /// <param name="proxyName">The name of the proxy</param>
-        public Proxy(string proxyName)
+        public Proxy(string proxyName) //构造函数初始化一个代理类
             : this(proxyName, null)
         {
         }
@@ -56,7 +56,7 @@ namespace PureMVC.Patterns
         /// </summary>
         /// <param name="proxyName">The name of the proxy</param>
         /// <param name="data">The data to be managed</param>
-        public Proxy(string proxyName, object data)
+        public Proxy(string proxyName, object data) //构造 一个代理 初始化名字和数据
         {
             ProxyName = proxyName ?? NAME;
             if (data != null) Data = data;
@@ -69,14 +69,14 @@ namespace PureMVC.Patterns
         #region IProxy Members
 
         /// <summary>
-        /// Called by the Model when the Proxy is registered
+        /// Called by the Model when the Proxy is registered  被Model调用 来注册这个代理类
         /// </summary>
         public virtual void OnRegister()
         {
         }
 
         /// <summary>
-        /// Called by the Model when the Proxy is removed
+        /// Called by the Model when the Proxy is removed 被model调用来移除这个代理类
         /// </summary>
         public virtual void OnRemove()
         {
@@ -92,12 +92,12 @@ namespace PureMVC.Patterns
         /// Get the proxy name
         /// </summary>
         /// <returns></returns>
-        public string ProxyName { get; protected set; }
+        public string ProxyName { get; protected set; } //这个甙类类的名字
 
         /// <summary>
         /// Set the data object
         /// </summary>
-        public object Data { get; set; }
+        public object Data { get; set; } //这个代理类的数据
 
         #endregion
 

@@ -79,14 +79,15 @@ namespace PureMVC.Core
         /// <param name="notificationName">The name of the <c>INotifications</c> to notify this <c>IObserver</c> of</param>
         /// <param name="observer">The <c>IObserver</c> to register</param>
         /// <remarks>This method is thread safe and needs to be thread safe in all implementations.</remarks>
-        public virtual void RegisterObserver(string notificationName, IObserver observer)
+        public virtual void RegisterObserver(string notificationName, IObserver observer) //每一个观察者处理一个mediator 的消息  mediator 里面有该mediator关心的 消息列表 一个消息 可能有多个 observer
         {
             if (!m_observerMap.ContainsKey(notificationName))
             {
                 m_observerMap[notificationName] = new List<IObserver>();
             }
 
-            m_observerMap[notificationName].Add(observer);
+            m_observerMap[notificationName].Add(observer);//每个消息 都能 找到 对应的oberver
+
         }
 
         /// <summary>
@@ -97,14 +98,14 @@ namespace PureMVC.Core
         /// <para>All previously attached <c>IObservers</c> for this <c>INotification</c>'s list are notified and are passed a reference to the <c>INotification</c> in the order in which they were registered</para>
         /// </remarks>
         /// <remarks>This method is thread safe and needs to be thread safe in all implementations.</remarks>
-        public virtual void NotifyObservers(INotification notification)
+        public virtual void NotifyObservers(INotification notification) //传递消息让观察者 执行消息
         {
             IList<IObserver> observers = null;
 
             if (m_observerMap.ContainsKey(notification.Name))
             {
                 // Get a reference to the observers list for this notification name
-                IList<IObserver> observers_ref = m_observerMap[notification.Name];
+                IList<IObserver> observers_ref = m_observerMap[notification.Name]; //一个消息 有可能 有很多的observer要执行 所以得到一个observer的列表
                 // Copy observers from reference array to working array, 
                 // since the reference array may change during the notification loop
                 observers = new List<IObserver>(observers_ref);
@@ -125,7 +126,7 @@ namespace PureMVC.Core
         /// <param name="notificationName">which observer list to remove from</param>
         /// <param name="notifyContext">remove the observer with this object as its notifyContext</param>
         /// <remarks>This method is thread safe and needs to be thread safe in all implementations.</remarks>
-        public virtual void RemoveObserver(string notificationName, object notifyContext)
+        public virtual void RemoveObserver(string notificationName, object notifyContext) //移除观察者
         {
             // the observer list for the notification under inspection
             if (!m_observerMap.ContainsKey(notificationName)) return;
@@ -163,7 +164,7 @@ namespace PureMVC.Core
         ///     <para>If the <c>IMediator</c> returns any <c>INotification</c> names to be notified about, an <c>Observer</c> is created encapsulating the <c>IMediator</c> instance's <c>handleNotification</c> method and registering it as an <c>Observer</c> for all <c>INotifications</c> the <c>IMediator</c> is interested in</para>
         /// </remarks>
         /// <remarks>This method is thread safe and needs to be thread safe in all implementations.</remarks>
-        public virtual void RegisterMediator(IMediator mediator)
+        public virtual void RegisterMediator(IMediator mediator) //注册 mediator
         {
             lock (m_mediatorMap)
             {
@@ -179,10 +180,10 @@ namespace PureMVC.Core
 
                 // Register Mediator as an observer for each of its notification interests
                 // Create Observer
-                IObserver observer = new Observer("handleNotification", mediator);
+                IObserver observer = new Observer("handleNotification", mediator); //每一个observer 管理 一个mediator 的消息
 
                 // Register Mediator as Observer for its list of Notification interests
-                foreach (var t in interests)
+                foreach (var t in interests) //讲每个吗mediator 里面它 感兴趣的消息都存到View 的消息列表里 在派发消息的时候才能找到对应的observer
                 {
                     RegisterObserver(t, observer);
                 }
@@ -197,7 +198,7 @@ namespace PureMVC.Core
         /// <param name="mediatorName">The name of the <c>IMediator</c> instance to retrieve</param>
         /// <returns>The <c>IMediator</c> instance previously registered with the given <c>mediatorName</c></returns>
         /// <remarks>This method is thread safe and needs to be thread safe in all implementations.</remarks>
-        public virtual IMediator RetrieveMediator(string mediatorName)
+        public virtual IMediator RetrieveMediator(string mediatorName)//返回Mediator
         {
             if (!m_mediatorMap.ContainsKey(mediatorName)) return null;
             return m_mediatorMap[mediatorName];

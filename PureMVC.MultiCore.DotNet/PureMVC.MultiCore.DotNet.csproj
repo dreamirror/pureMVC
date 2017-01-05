@@ -51,7 +51,7 @@
     <Compile Include="PureMVC\Interfaces\INotification.cs" />
     <Compile Include="PureMVC\Interfaces\INotifier.cs" />
     <Compile Include="PureMVC\Interfaces\IObserver.cs" />
-    <Compile Include="PureMVC\Interfaces\IProxy.cs" />
+    <Compile Include="PureMVC\Patterns\IProxy.cs" />
     <Compile Include="PureMVC\Interfaces\IView.cs" />
     <Compile Include="PureMVC\Patterns\Command\DelegateCommand.cs" />
     <Compile Include="PureMVC\Patterns\Command\MacroCommand.cs" />

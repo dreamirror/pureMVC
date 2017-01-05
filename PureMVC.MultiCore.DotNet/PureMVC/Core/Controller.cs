@@ -127,7 +127,7 @@ namespace PureMVC.Core
         ///     </para>
         /// </remarks> 
         /// <remarks>This method is thread safe and needs to be thread safe in all implementations.</remarks>
-        public void RegisterCommand(string notificationName, Type commandType)
+        public void RegisterCommand(string notificationName, Type commandType) //消息对应一个command
         {
             if (!m_commandMap.ContainsKey(notificationName))
             {

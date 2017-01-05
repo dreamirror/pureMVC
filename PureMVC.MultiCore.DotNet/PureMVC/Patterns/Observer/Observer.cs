@@ -45,7 +45,7 @@ namespace PureMVC.Patterns
         /// </remarks>
         public Observer(string notifyMethod, object notifyContext)
         {
-            NotifyMethod = notifyMethod;
+            NotifyMethod = notifyMethod; //执行这个消息的方法
             NotifyContext = notifyContext;
         }
 
