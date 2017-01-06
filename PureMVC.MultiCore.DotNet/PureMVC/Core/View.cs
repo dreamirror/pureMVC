@@ -188,8 +188,8 @@ namespace PureMVC.Core
                     RegisterObserver(t, observer);
                 }
             }
-            // alert the mediator that it has been registered
-            mediator.OnRegister();
+            // alert the mediator that it has been registered  警告 这个mediator 表示它已经被注册了
+            mediator.OnRegister(); //
         }
 
         /// <summary>

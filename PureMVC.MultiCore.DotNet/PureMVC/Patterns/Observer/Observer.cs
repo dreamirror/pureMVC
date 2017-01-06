@@ -46,7 +46,7 @@ namespace PureMVC.Patterns
         public Observer(string notifyMethod, object notifyContext)
         {
             NotifyMethod = notifyMethod; //执行这个消息的方法
-            NotifyContext = notifyContext;
+            NotifyContext = notifyContext;//observer 绑定的类 mediator 帮这个类监听 的方法
         }
 
         #endregion
@@ -60,7 +60,7 @@ namespace PureMVC.Patterns
         /// </summary>
         /// <remarks>This method is thread safe</remarks>
         /// <param name="notification">The <c>INotification</c> to pass to the interested object's notification method</param>
-        public void NotifyObserver(INotification notification)
+        public void NotifyObserver(INotification notification) //在View里面调用 这个方法 来执行消息 在这个 消息中执行 new Observer 的时候设置的默认的方法这个方法是在IObserver里面定义 的NotifyMethod
         {
             object context;
 
